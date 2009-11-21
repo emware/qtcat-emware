@@ -37,8 +37,6 @@
 #include <QDateTime>
 #include <QtGlobal>
 */
-#include <QXmlInputSource>
-#include <QXmlSimpleReader>
 #pragma endregion
 
 
@@ -53,9 +51,7 @@
 #include "defsandtools.h"
 #include "iconscdcat.h"
 #include "iconmanager.h"
-*/
-#include "whereisitxmlimportclass.h"
-/*
+
 #include "deviceclass.h"
 */
 #pragma endregion
@@ -75,59 +71,6 @@
 int allFiles = 0;
 
 
-
-#define TEST_INPUT_XML_PATH "/mnt/data/projects/c_cpp/dvdcat/data/Movies_exp_gen_new_withFlag_sorted_FN.xml"
-//"/mnt/data/projects/c_cpp/dvdcat/data/Movies_exp2_unix.xml"
-
-class test_xml_parser : public QObject
-{
-     Q_OBJECT
-	
-	static const char *XML_CATALOG_PATH() { return TEST_INPUT_XML_PATH; };
-
-	private slots:
-		void initTestCase() {
-		}
-
-		void cleanupTestCase() {
-		}
-
-		void testImportXml()
-		{
-#if 0
-			QStringList labels;
-			labels << QObject::tr("Terms") << QObject::tr("Pages");
-			QTreeWidget *treeWidget = new QTreeWidget;
-			treeWidget->setHeaderLabels(labels);
-			treeWidget->setWindowTitle(QObject::tr("SAX Handler"));
-			treeWidget->show();
-#endif
-
-			QFile file(QString::fromUtf8(test_xml_parser::XML_CATALOG_PATH()));
-			QXmlInputSource inputSource(&file);
-			QXmlSimpleReader reader;
-			WhereIsItXmlImportClass handler;
-			reader.setContentHandler(&handler);
-			reader.setErrorHandler(&handler);
-			reader.parse(inputSource);
-			if ( !handler.isParseSuccessful() )
-			{
-				QWARN(
-					QString("Error while parsing input %1: %2")
-						.arg( QString::fromUtf8(test_xml_parser::XML_CATALOG_PATH()) )
-						.arg( handler.getParseError() )
-						.toStdString().c_str()
-				);
-			}
-			QVERIFY(handler.isParseSuccessful());
-
-			printQS(QString("GROUPS = %1\nDISKS = %2\nFOLDERS = %3\nFILES = %4").arg(handler._diskGroupsNum).arg(handler._disks).arg(handler._folders).arg(handler._files));
-
-		}
-};
-
-QTTESTUTIL_REGISTER_TEST(test_xml_parser);
-#include "testcode.moc"
 
 
 

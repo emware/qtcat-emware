@@ -23,32 +23,32 @@
 #include <QtTest/QtTest>
 
 #include "QtTestUtil/QtTestUtil.h"
+
+#include <QXmlInputSource>
+#include <QXmlSimpleReader>
 #pragma endregion
 
 
 #pragma region Application includes: Business Logic
+//#include "mainwindow.h"
 #include "testcode.h"
+#include "defsandtools.h"
+#include "whereisitxmlimportclass.h"
 #pragma endregion
 
 #pragma region Application includes: GUI
-#include "mainwindow.h"
 #pragma endregion
 
 
-#define home
-#ifdef home
-#define DB_FILE "data/home2.sqlite"
-#else
-#define DB_FILE "data/office2.sqlite"
-#endif
+#define TEST_INPUT_XML_PATH "/mnt/data/projects/c_cpp/dvdcat/data/Movies_exp_gen_new_withFlag_sorted_FN.xml"
+//"/mnt/data/projects/c_cpp/dvdcat/data/Movies_exp2_unix.xml"
 
-
-void test_createDB();
-
-class test_create_cat : public QObject
+class test_parse_xml : public QObject
 {
      Q_OBJECT
 	
+	static const char *XML_CATALOG_PATH() { return TEST_INPUT_XML_PATH; };
+
 	private slots:
 		void initTestCase() {
 		}
@@ -56,35 +56,41 @@ class test_create_cat : public QObject
 		void cleanupTestCase() {
 		}
 
-
-		void testCreateNamedCatalogs_data()
+		void testImportXml()
 		{
-			QTest::addColumn<QTestEventList>("events");
-			QTest::addColumn<QString>("expected");
+#if 0
+			QStringList labels;
+			labels << QObject::tr("Terms") << QObject::tr("Pages");
+			QTreeWidget *treeWidget = new QTreeWidget;
+			treeWidget->setHeaderLabels(labels);
+			treeWidget->setWindowTitle(QObject::tr("SAX Handler"));
+			treeWidget->show();
+#endif
 
-			// add the event for a key click on the widget
-			QTestEventList list1;
-			list1.addKeyClick('a');
-			QTest::newRow("char") << list1 << "a";
+			QFile file(QString::fromUtf8(test_parse_xml::XML_CATALOG_PATH()));
+			QXmlInputSource inputSource(&file);
+			QXmlSimpleReader reader;
+			WhereIsItXmlImportClass handler;
+			reader.setContentHandler(&handler);
+			reader.setErrorHandler(&handler);
+			reader.parse(inputSource);
+			if ( !handler.isParseSuccessful() )
+			{
+				QWARN(
+					QString("Error while parsing input %1: %2")
+						.arg( QString::fromUtf8(test_parse_xml::XML_CATALOG_PATH()) )
+						.arg( handler.getParseError() )
+						.toStdString().c_str()
+				);
+			}
+			QVERIFY(handler.isParseSuccessful());
 
-			QTestEventList list2;
-			list2.addKeyClick('a');
-			list2.addKeyClick(Qt::Key_Backspace);
-			QTest::newRow("there and back again") << list2 << "";
-		}
+			printQS(QString("GROUPS = %1\nDISKS = %2\nFOLDERS = %3\nFILES = %4").arg(handler._diskGroupsNum).arg(handler._disks).arg(handler._folders).arg(handler._files));
 
-
-		void testCreateNamedCatalogs() {
-			test_createDB();
-			QCOMPARE(1, 1); // Dummy test
 		}
 };
 
-void test_createDB(){
-//	QCatDataModuleClass::createDB(DB_FILE, true);
-}
+QTTESTUTIL_REGISTER_TEST(test_parse_xml);
+#include "test_parse_xml.moc"
 
-
-QTTESTUTIL_REGISTER_TEST(test_create_cat);
-#include "test_create_cat.moc"
 

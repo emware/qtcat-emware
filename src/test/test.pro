@@ -38,6 +38,7 @@ CONFIG += qtestlib
 SOURCES += \
 	testcode.cpp \
 	test_create_cat.cpp \
+	test_parse_xml.cpp \
 	QtTestUtil/SimpleChecker.cpp
 
 HEADERS += \
