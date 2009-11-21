@@ -1,0 +1,57 @@
+<RCC>
+    <qresource>
+    <file>../icons/interface/new.png</file>
+    <file>../icons/interface/open.png</file>
+    <file>../icons/interface/save.png</file>
+    <file>../icons/interface/fileclose.png</file>
+    <file>../icons/interface/editcut.png</file>
+    <file>../icons/interface/editcopy.png</file>
+    <file>../icons/interface/editpaste.png</file>
+    <file>../icons/interface/find.png</file>
+    <file>../icons/interface/lock.png</file>
+    <file>../icons/interface/critical.png</file>
+    <file>../icons/interface/add.png</file>
+    <file>../icons/interface/remove.png</file>
+    
+    <file>../icons/openfolder/openfolder-act1.png</file>
+    <file>../icons/openfolder/openfolder-act2.png</file>
+    <file>../icons/openfolder/openfolder-act3.png</file>
+    <file>../icons/openfolder/openfolder-act4.png</file>
+    <file>../icons/openfolder/openfolder-act5.png</file>
+    <file>../icons/openfolder/openfolder-act6.png</file>
+	<file>../icons/openfolder/openfolder-act7.png</file>
+	<file>../icons/openfolder/openfolder-act8.png</file>
+	   
+	<file>../icons/db_icons/catalog_enabled.png</file>
+    <file>../icons/db_icons/catalog_disabled.png</file>
+    <file>../icons/db_icons/disk_group.png</file>
+    <file>../icons/db_icons/other_device.png</file>
+    <file>../icons/db_icons/cdrom.png</file>
+    <file>../icons/db_icons/dvd.png</file>
+    <file>../icons/db_icons/hdd.png</file>
+    <file>../icons/db_icons/net_drive.png</file>
+    <file>../icons/db_icons/usbpendrive.png</file>
+    <file>../icons/db_icons/card.png</file>
+    <file>../icons/db_icons/folder_opened.png</file>
+    <file>../icons/db_icons/folder_closed.png</file>
+    <file>../icons/db_icons/file_binary.png</file>
+    <file>../icons/db_icons/file_ascii.png</file>
+    <file>../icons/db_icons/file_image.png</file>
+    <file>../icons/db_icons/file_movie.png</file>
+    <file>../icons/db_icons/updir.png</file>
+
+    <file>../icons/media/icon_cdcat_m_cd_icon.png</file>
+    <file>../icons/media/icon_cdcat_m_dvd_icon.png</file>
+    <file>../icons/media/icon_cdcat_m_flash_icon.png</file>
+    <file>../icons/media/icon_cdcat_m_floppy_icon.png</file>
+    <file>../icons/media/icon_cdcat_m_hdd_icon.png</file>
+    <file>../icons/media/icon_cdcat_m_net_icon.png</file>
+    <file>../icons/media/icon_cdcat_m_other_icon.png</file>
+    <file>../icons/media/compact_flash_unmount.png</file>
+    <file>../icons/media/memory_stick_unmount.png</file>
+    <file>../icons/media/sd_mmc_unmount.png</file>
+    <file>../icons/media/smart_media_unmount.png</file>
+    <file>../icons/media/usbpendrive_unmount.png</file>
+
+    </qresource>
+</RCC>

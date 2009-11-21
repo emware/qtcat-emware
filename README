@@ -1,0 +1,51 @@
+Hello everyone, 
+
+This is sort of README file. This software is my first try in C++ for Linux. 
+I tried to make a program cataloging CD/DVD and other media types. 
+This is pre-alpha version and is first public available version. 
+
+1. Requirements
+	QT 4.2.3 - I use this version for development. Maybe it will compile with lower version such as QT 4.2.2 or 4.2.1. I don't know. You have to try. 
+	SQLite 3.3.x. I use 3.3.16 now
+	QT 4 development tools 
+	gcc some version. I use 4.1.2
+	
+	I use slackware-current for development, so maybe there are other dependencies, but you have to find them out. 
+
+2. Compile
+	1. download the source
+	2.untar it - tar -xzvf qcat-0.5-src.tar.gz
+	3. cd qcat-dist-0.5
+	4. here is the tricky part. 
+		Perhaps you use QT 3.3.x. So to compile you have export QT_DIR and PATH for QT4. 
+		Check where is installed QT4. For example if QT4 is in /opt/qt4 type these commands:
+	export QT_DIR=/opt/qt4
+	export PATH=/opt/qt4/bin:$PATH
+	5. run qmake
+	6. make
+	7. If all is ok, the result shall be an executable file in qcat-dist-0.5/bin named qcat
+	8. run it and enjoy. 
+
+3. Install
+	I've not written any install target, script or so on, so you can just copy "qcat" file somewhere in you path. The install script/target is is in my TODO list. 
+
+4. Some instructions. 
+
+	This program use SQlite for db backend. During its first run it will create file in ~/.config/QCat in which it will store the configuration. Also it will create your first catalog in your home directory. It will be named defaultCatalog.qcat. 
+	
+	If you want to make shortcut for your CD/DVD drive, go to Tools - Manage Drives. There you can add alias for this drive or any other folder. If you chose that this is optical drive, you have to specify its drive node in /dev/ so the program can read CD/DVD label and mount/unmount the media in it. 
+	In Tools - Manage Icons you can change some of the default icons. They are stored in DB. 
+	
+	Import menu - here you can try to import WhereIsIt xml file. Please notify that if you have groups defined in WhereIsIt file, the hierarchy will be lost. (WherIsIt do not export it), so you have to arrange your disks again. You can use Drag and Drop. At this point only Disk Groups and Disks can be moved. 
+	
+	Saving - there is no need to save your changes, They are committed instantly. Shame on me. I haven't write transactions yet. 
+	
+	Locking the catalog - Select catalog properties and click Lock icon. Please note that the passwords are kept in plain text. Shame on me again, so you can just avoid password protection and wait for some new version. 
+
+	Feel free to explorer. It is almost certain there are plenty of bugs. 
+
+5. Guarantee
+	There is no guarantee for this software. Use it on your own risk. 
+
+6. Feedback
+	I'll really appreciate if you contact me with comments, bug reports or ideas. Please use kernel_daemon@users.sourceforge.net
