@@ -21,21 +21,30 @@
 #include <cstdlib>
 #include <cstring>
 
-#include <QCoreApplication>
-#include <QSqlQuery>
-#include <QSqlDatabase>
+
+#pragma region System includes
+#include <QObject>
+#include <QtTest/QtTest>
+
+#include "QtTestUtil/QtTestUtil.h"
+/*#include <QCoreApplication>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlDatabase>
 
 #include <QDir>
 #include <QStringList>
 #include <QFileInfoList>
 #include <QDateTime>
 #include <QtGlobal>
-
+*/
 #include <QXmlInputSource>
 #include <QXmlSimpleReader>
+#pragma endregion
 
+
+#pragma region Application includes: Business Logic
 #include "defsandtools.h"
-#include "datamodule.h"
+/*#include "datamodule.h"
 #include "dbnode.h"
 #include "mediascanner.h"
 #include "catalogclass.h"
@@ -44,8 +53,17 @@
 #include "defsandtools.h"
 #include "iconscdcat.h"
 #include "iconmanager.h"
+*/
 #include "whereisitxmlimportclass.h"
+/*
 #include "deviceclass.h"
+*/
+#pragma endregion
+
+#pragma region Application includes: GUI
+#pragma endregion
+
+
 
 #define home
 #ifdef home
@@ -56,6 +74,69 @@
 
 int allFiles = 0;
 
+
+
+#define TEST_INPUT_XML_PATH "/mnt/data/projects/c_cpp/dvdcat/data/Movies_exp_gen_new_withFlag_sorted_FN.xml"
+//"/mnt/data/projects/c_cpp/dvdcat/data/Movies_exp2_unix.xml"
+
+class test_xml_parser : public QObject
+{
+     Q_OBJECT
+	
+	static const char *XML_CATALOG_PATH() { return TEST_INPUT_XML_PATH; };
+
+	private slots:
+		void initTestCase() {
+		}
+
+		void cleanupTestCase() {
+		}
+
+		void testImportXml()
+		{
+#if 0
+			QStringList labels;
+			labels << QObject::tr("Terms") << QObject::tr("Pages");
+			QTreeWidget *treeWidget = new QTreeWidget;
+			treeWidget->setHeaderLabels(labels);
+			treeWidget->setWindowTitle(QObject::tr("SAX Handler"));
+			treeWidget->show();
+#endif
+
+			QFile file(QString::fromUtf8(test_xml_parser::XML_CATALOG_PATH()));
+			QXmlInputSource inputSource(&file);
+			QXmlSimpleReader reader;
+			WhereIsItXmlImportClass handler;
+			reader.setContentHandler(&handler);
+			reader.setErrorHandler(&handler);
+			reader.parse(inputSource);
+			if ( !handler.isParseSuccessful() )
+			{
+				QWARN(
+					QString("Error while parsing input %1: %2")
+						.arg( QString::fromUtf8(test_xml_parser::XML_CATALOG_PATH()) )
+						.arg( handler.getParseError() )
+						.toStdString().c_str()
+				);
+			}
+			QVERIFY(handler.isParseSuccessful());
+
+			printQS(QString("GROUPS = %1\nDISKS = %2\nFOLDERS = %3\nFILES = %4").arg(handler._diskGroupsNum).arg(handler._disks).arg(handler._folders).arg(handler._files));
+
+		}
+};
+
+QTTESTUTIL_REGISTER_TEST(test_xml_parser);
+#include "testcode.moc"
+
+
+
+
+#if 0
+
+
+
+
 void printDir(int i)
 {
     //if (allFiles)
@@ -64,35 +145,6 @@ void printDir(int i)
     //printf("Completed %1 percent", p);
     printQS(QString("Completed %1 %").arg(p));
 }
-
-void test_createDB(){
-//	QCatDataModuleClass::createDB(DB_FILE, true);
-}
-
-
-void test_xml_parser()
-{
-    
-    QString fileName = "/mnt/data/projects/c_cpp/dvdcat/data/Movies_exp_gen_new_withFlag_sorted_FN.xml";
-    //QString fileName = "/mnt/data/projects/c_cpp/dvdcat/data/Movies_exp2_unix.xml";
-    
-    /*QStringList labels;
-    labels << QObject::tr("Terms") << QObject::tr("Pages");
-    QTreeWidget *treeWidget = new QTreeWidget;
-    treeWidget->setHeaderLabels(labels);
-    treeWidget->setWindowTitle(QObject::tr("SAX Handler"));
-    treeWidget->show();*/
-    
-    QFile file(fileName);
-    QXmlInputSource inputSource(&file);
-    QXmlSimpleReader reader;
-    WhereIsItXmlImportClass handler;
-    reader.setContentHandler(&handler);
-    reader.setErrorHandler(&handler);
-    reader.parse(inputSource);
-    printQS(QString("GROUPS = %1\nDISKS = %2\nFOLDERS = %3\nFILES = %4").arg(handler._diskGroupsNum).arg(handler._disks).arg(handler._folders).arg(handler._files));
-}
-
 
 
 void test_diskClass()
@@ -415,3 +467,4 @@ void test_icons_to_db()
     delete dm;
 }
 
+#endif

@@ -286,7 +286,7 @@ const MediaTypesStruct mediaTypesArray[] = {
 };
 
 
-void printQS(const QString::QString toPrn);
+void printQS(const QString toPrn);
 QString getMediaTypeIconName(int index);
 
 /**

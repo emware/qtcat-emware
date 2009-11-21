@@ -21,6 +21,7 @@
 #include <QFileDialog>
 #include <QXmlInputSource>
 #include <QXmlSimpleReader>
+#include <QMessageBox>
 
 #include "defsandtools.h"
 #include "datamodule.h"
@@ -128,6 +129,11 @@ void ImportDlg::import_db()
 	reader.setContentHandler(&imp);
 	reader.setErrorHandler(&imp);
 	reader.parse(inputSource);
+	if ( !imp.isParseSuccessful() )
+	{
+		QMessageBox::warning(this, QObject::tr("SAX Handler"), imp.getParseError());
+		return;
+	}
     
     int _groups = imp._diskGroupsNum;
     int _disks = imp._disks;

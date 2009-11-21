@@ -18,50 +18,50 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <cstdlib>
-#include <iostream>
-#include <cstring>
-
+#pragma region System includes
 #include <QtGui>
-#include <QSplitter>
-#include <QTreeWidget>
-#include <QTreeWidgetItem>
-#include <QTableView>
-#include <QDirModel>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlQueryModel>
-#include <QAbstractItemView>
-#include <QTreeView>
 
-#include "mainwindow.h"
-#include "configmanager.h"
-#include "datamodule.h"
-#include "dbnode.h"
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlQueryModel>
+#pragma endregion
+
+#pragma region Application includes: Business Logic
 #include "defsandtools.h"
+#include "configmanager.h"
+#include "catalogclass.h"
+#include "dbnode.h"
+#pragma endregion
+
+#pragma region Application includes: GUI
+#include "mainwindow.h"
+#include "datamodule.h"
 #include "catalogtree.h"
 #include "catalogtable.h"
 #include "rightpanel.h"
 #include "iconmanager.h"
 #include "dbnode.h"
-#include "catalogclass.h"
 #include "iconmanagerdlg.h"
 #include "searchdlg.h"
 #include "importdlg.h"
 #include "addscanplaces.h"
+#pragma endregion
 
-/*#define APPNAME "MyTest"*/
+
+
+
+
+
 
 MainWindow::MainWindow()
 {
-	printQS("Constructing MainWindow");
+	printQS(QApplication::translate("QCatDebug", "Constructing MainWindow", 0, QApplication::UnicodeUTF8));
     dm = NULL;
 	
     catalogTree = NULL;
     rightPanel = NULL;
 	
     readSettings();
-	
 	
     if (settings->autoOpenLastFile)
         loadFile(settings->lastFile);
@@ -115,7 +115,7 @@ void MainWindow::readSettings()
     
     resize(settings->appSize);
     move(settings->appPos);
-    std::cout << "Last file used is " << settings->lastFile.toStdString() << std::endl;
+	printQS(QApplication::translate("QCatDebug", "Last file used: %1\n", 0, QApplication::UnicodeUTF8).arg(settings->lastFile));
     
 }
 
@@ -236,19 +236,19 @@ bool MainWindow::closeCatalog()
     }
     delete dm;
     dm = NULL;
-    std::cout << "Close catalog action\n";    
+	printQS(QApplication::translate("QCatDebug", "Close catalog action", 0, QApplication::UnicodeUTF8));
     return false;
 }
 
 void MainWindow::addMedia()
 {
-    std::cout << "Add Media action\n";    
-    
+	printQS(QApplication::translate("QCatDebug", "Add Media action", 0, QApplication::UnicodeUTF8));
+   
 }
 
 void MainWindow::addGroup()
 {
-    std::cout << "Add Group action\n";    
+	printQS(QApplication::translate("QCatDebug", "Add Group action", 0, QApplication::UnicodeUTF8));
 
 }
 

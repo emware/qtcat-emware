@@ -259,7 +259,7 @@ void MediaScanUI::startScan()
 		return;
 	}
 	bool mount = false;
-	if (pathsTree->currentItem()->text(2).toInt() != -1)
+	if (pathsTree->currentItem() && pathsTree->currentItem()->text(2).toInt() != -1)
 	{
 		int index = pathsTree->currentItem()->text(2).toInt();
 		mount = dm->settings->scanPlaces.at(index).useMount;

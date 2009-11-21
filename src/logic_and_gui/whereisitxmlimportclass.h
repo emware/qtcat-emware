@@ -119,6 +119,9 @@ class WhereIsItXmlImportClass : public QXmlDefaultHandler{
          * 
          * */
         void setWorkClass(Work_ImportWhereIsItItem *_wc);
+
+		bool isParseSuccessful() const { return !hasParserError; }
+		QString getParseError() const { return errorFromParser; }
         
         QString currentText;
         
@@ -134,6 +137,8 @@ class WhereIsItXmlImportClass : public QXmlDefaultHandler{
         bool justCount;
         
         xmlItem _data;
+		bool hasParserError;
+		QString errorFromParser;
 };
 
 #endif

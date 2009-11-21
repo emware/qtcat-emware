@@ -31,7 +31,7 @@ class CatalogReports;
 class IconManager;
 class dbNodeClass;
 class CatalogClass;
-class catalogNode;
+struct catalogNode;
 class QComboBox;
 class QCatDataModuleClass;
 

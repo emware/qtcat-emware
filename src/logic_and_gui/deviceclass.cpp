@@ -193,6 +193,9 @@ int DeviceClass::checkForISO9660(const QString & dev)
         }
         
     }
+    
+    // Return a meaningless value for now
+    return 0;
 
 }
 
@@ -263,7 +266,9 @@ int DeviceClass::checkForUDF(const QString & dev)
 		
 	}
 	
-
+    
+    // Return a meaningless value for now
+    return 0;
 }
 
 int DeviceClass::sectToOffset(int _sectNo)
@@ -275,6 +280,10 @@ bool DeviceClass::getInfoForOptical(const QString & dev)
 {
     checkForISO9660(dev);
 	checkForUDF(dev);
+    
+    // Return a meaningless value for now
+    return true;
+
 }
 
 bool DeviceClass::probeUDF(QFile & dev, int sec_size)

@@ -1,12 +1,31 @@
-SOURCES += main.cpp \
-mainwindow.cpp \
+! include( ../common.pri ) {
+    error( Couldn't find the common.pri file! )
+}
+
+CONFIG(debug|release) {
+ CONFIG -= release
+}
+
+QT += gui \
+      xml \
+      sql
+
+DISTFILES += ../Tasks.txt
+
+#OBJECTS_DIR = ../../build/
+
+UI_DIR = ../../build/
+
+#MOC_DIR = ../../build/
+
+
+SOURCES += mainwindow.cpp \
 configmanager.cpp \
 datamodule.cpp \
 dbnode.cpp \
 defsandtools.cpp \
 rightpanel.cpp \
 catalogtree.cpp \
-testcode.cpp \
 mediascanner.cpp \
 catalogclass.cpp \
 mediascanui.cpp \
@@ -24,12 +43,7 @@ catalogpropertiesdlg.cpp \
  progresswidget.cpp \
  deviceclass.cpp \
  catalogtable.cpp
-TEMPLATE = app
-CONFIG += warn_on \
-	  thread \
-          qt \
- build_all \
- debug
+
 
 HEADERS += mainwindow.h \
 configmanager.h \
@@ -38,7 +52,6 @@ dbnode.h \
 defsandtools.h \
 rightpanel.h \
 catalogtree.h \
-testcode.h \
 mediascanner.h \
 catalogclass.h \
 mediascanui.h \
@@ -56,12 +69,13 @@ catalogpropertiesdlg.h \
  progresswidget.h \
  deviceclass.h \
  catalogtable.h
-RESOURCES += application.qrc
 
-QT += core \
-gui \
-xml \
- sql
+
+#Resource file(s)
+RESOURCES += .\application.qrc
+
+
+
 FORMS += catalog_pass.ui \
 catalog_properties.ui \
  searchdialog.ui \
@@ -69,20 +83,3 @@ catalog_properties.ui \
  addupdateicon.ui \
  importdb.ui \
  settings_form.ui
-
-DESTDIR = .
-
-DISTFILES += Tasks.txt
-
-OBJECTS_DIR = ../build/
-
-UI_DIR = ../build/
-
-MOC_DIR = ../build/
-
-TARGET = ../bin/qcat
-
-
-
-CONFIG -= release
-

@@ -21,7 +21,6 @@
 #ifndef TESTCODE_H
 #define TESTCODE_H
 
-void test_createDB();
 void test_fill_icons();
 void test_fill_data();
 void test_icons_save();

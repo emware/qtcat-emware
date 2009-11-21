@@ -28,7 +28,7 @@
 */
 
 class CatalogClass;
-class catalogNode;
+struct catalogNode;
 
 class CatalogPasswordDlg : public QDialog, private Ui::CatalogPasswordDialog
 {

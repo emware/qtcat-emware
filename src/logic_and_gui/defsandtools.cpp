@@ -30,9 +30,9 @@
 
 #include "defsandtools.h"
 
-void printQS(const QString::QString toPrn)
+void printQS(const QString toPrn)
 {
-    std::cout << toPrn.toStdString() << std::endl;
+    std::cerr << toPrn.toStdString() << std::endl;
 }
 
 QString getMediaTypeIconName(int index)

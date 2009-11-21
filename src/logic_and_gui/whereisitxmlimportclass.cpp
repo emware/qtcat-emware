@@ -18,7 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <QString>
-#include <QMessageBox>
 #include <QXmlParseException>
 #include <QXmlAttributes>
 
@@ -54,7 +53,9 @@ WhereIsItXmlImportClass::WhereIsItXmlImportClass()
     _files = 0;
 	wc = NULL;
     justCount = true;
-	
+
+	hasParserError = false;
+	errorFromParser.clear();
 }
 
 
@@ -166,13 +167,12 @@ bool WhereIsItXmlImportClass::characters(const QString &str)
 
 bool WhereIsItXmlImportClass::fatalError(const QXmlParseException &exception)
 {
-    
-    QMessageBox::warning(0, QObject::tr("SAX Handler"),
-                         QObject::tr("Parse error at line %1, column "
+   	hasParserError = true;
+	errorFromParser = QObject::tr("Parse error at line %1, column "
                                  "%2:\n%3.")
                                  .arg(exception.lineNumber())
                                  .arg(exception.columnNumber())
-                                 .arg(exception.message()));
+                                 .arg(exception.message());
     
     return true;
 }
@@ -199,7 +199,6 @@ void WhereIsItXmlImportClass::initGivenData(xmlItem & data)
     data.crc = 0;
     data.flag.clear();
     data.diskLocation.clear();
-
 }
 
 
@@ -346,7 +345,7 @@ bool Work_ImportWhereIsItItem::processItem(xmlItem &xmlData)
 		data.nodeAttr = 24644;
 		data.nodeFlags = 0;
 		data.diskNo = diskNo;
-		if (!dm->dbn->createNode(data) == -1)
+		if (!(dm->dbn->createNode(data) == -1))
 			printQS("Fail on " + data.nodeName);
         if (pw)
             pw->stepProgressBar(progressBarNo);

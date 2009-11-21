@@ -1,0 +1,40 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "logic_and_gui", "src\logic_and_gui\logic_and_gui.vcproj", "{F27503DA-34D8-311F-ABFC-2955BD48E7B8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test-qcat", "src\test\test-qcat.vcproj", "{0A9C7750-39BD-396C-A704-6211DEEFAF83}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F27503DA-34D8-311F-ABFC-2955BD48E7B8} = {F27503DA-34D8-311F-ABFC-2955BD48E7B8}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qcatsym", "src\build\qcatsym.vcproj", "{06356953-3DDD-332F-9648-52D01F6B56EF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F27503DA-34D8-311F-ABFC-2955BD48E7B8} = {F27503DA-34D8-311F-ABFC-2955BD48E7B8}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F27503DA-34D8-311F-ABFC-2955BD48E7B8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F27503DA-34D8-311F-ABFC-2955BD48E7B8}.Debug|Win32.Build.0 = Debug|Win32
+		{F27503DA-34D8-311F-ABFC-2955BD48E7B8}.Release|Win32.ActiveCfg = Release|Win32
+		{F27503DA-34D8-311F-ABFC-2955BD48E7B8}.Release|Win32.Build.0 = Release|Win32
+		{0A9C7750-39BD-396C-A704-6211DEEFAF83}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0A9C7750-39BD-396C-A704-6211DEEFAF83}.Debug|Win32.Build.0 = Debug|Win32
+		{0A9C7750-39BD-396C-A704-6211DEEFAF83}.Release|Win32.ActiveCfg = Release|Win32
+		{0A9C7750-39BD-396C-A704-6211DEEFAF83}.Release|Win32.Build.0 = Release|Win32
+		{06356953-3DDD-332F-9648-52D01F6B56EF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{06356953-3DDD-332F-9648-52D01F6B56EF}.Debug|Win32.Build.0 = Debug|Win32
+		{06356953-3DDD-332F-9648-52D01F6B56EF}.Release|Win32.ActiveCfg = Release|Win32
+		{06356953-3DDD-332F-9648-52D01F6B56EF}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		QtVersion = Qt 4.5 opensource
+	EndGlobalSection
+EndGlobal
