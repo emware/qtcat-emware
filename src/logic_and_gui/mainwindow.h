@@ -49,12 +49,17 @@ class MainWindow : public QMainWindow
             
     public:
         MainWindow();
+        MainWindow(QStringList opts);
         ~MainWindow();
+
+	protected:
+        void construct(QStringList *opts = 0);
         
     protected:
         void closeEvent(QCloseEvent *event);
         
     private slots:
+        void enableDebugMode();
         void newFile();
         void open();
         bool save();
@@ -75,7 +80,7 @@ class MainWindow : public QMainWindow
         void createMenus();
         void createToolBars();
         void createStatusBar();
-        void readSettings();
+        void readSettings(QStringList *opts);
         void writeSettings();
         bool maybeSave();
         void loadFile(QString &fileName);
@@ -86,7 +91,6 @@ class MainWindow : public QMainWindow
         
         QString curFile;
 		
-               
         // ConfigManager
 		//QString dbConnName;
 		QCatDataModuleClass *dm;
@@ -155,6 +159,14 @@ class MainWindow : public QMainWindow
         QAction *helpAct;
         QAction *aboutAct;
         QAction *aboutQtAct;
+
+
+        QAction *enableDebugAct;
+		bool debugEnabled;
+		QStringList debugParams;
+	public:
+		void setDebugParams(QStringList params);
+
 };
 #endif
 

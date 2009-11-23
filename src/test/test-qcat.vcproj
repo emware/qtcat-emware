@@ -204,7 +204,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="QtTestUtil\SimpleChecker.cpp"
+				RelativePath="test-common.cpp"
+				>
+			</File>
+			<File
+				RelativePath="test-main.cpp"
 				>
 			</File>
 			<File
@@ -231,6 +235,32 @@
 			>
 			<File
 				RelativePath="QtTestUtil\QtTestUtil.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="test-common.h"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"

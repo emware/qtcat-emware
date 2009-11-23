@@ -258,7 +258,7 @@ void CatalogTable::clearAllItems()
 
 void CatalogTable::columnResized(int index, int oldSize, int newSize)
 {
-    if (canResize)
+    if (dm && canResize)
     {
         if (bDiskColumns)
         {

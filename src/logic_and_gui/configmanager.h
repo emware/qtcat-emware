@@ -52,7 +52,7 @@ struct structScanPlaces;
 class ConfigManager{
 
 public:
-    ConfigManager();
+    ConfigManager(QStringList *opts = 0);
 
     ~ConfigManager();
     
@@ -103,7 +103,8 @@ public:
     
             
 private:
-    QSettings *allSettings;        
+    QSettings *allSettings;
+	bool skipEnabled;
 };
 
 #endif

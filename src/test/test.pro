@@ -36,12 +36,14 @@ CONFIG += qtestlib
 
 # SimpleChecker.cpp contains the entry point.
 SOURCES += \
+	test-common.cpp \
 	testcode.cpp \
 	test_create_cat.cpp \
 	test_parse_xml.cpp \
-	QtTestUtil/SimpleChecker.cpp
+	test-main.cpp
 
 HEADERS += \
+	test-common.h \
 	testcode.h \
 	QtTestUtil/QtTestUtil.h
 

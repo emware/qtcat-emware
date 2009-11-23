@@ -24,9 +24,10 @@
 #include "configmanager.h"
 
 
-ConfigManager::ConfigManager()
+ConfigManager::ConfigManager(QStringList *opts)
 {
-    allSettings = new QSettings(APPNAME, APPCOMPANY);
+    allSettings = new QSettings(APPCOMPANY, APPNAME);
+	skipEnabled = opts->contains("skipsettings");
 }
 
 
@@ -39,25 +40,66 @@ ConfigManager::~ConfigManager()
 
 void ConfigManager::loadSettings()
 {
-    int colsCatalogSizes[] = {160, 90, 90, 150, 90, 60, 80, 80};
-    int colsDiskSizes[] = {260, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80};
+    static const int colsCatalogSizes[] = {160, 90, 90, 150, 90, 60, 80, 80};
+    static const int colsDiskSizes[] = {260, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80};
     
     if (!allSettings)
         return;
-    
-    appPos = allSettings->value(SCR_POS, QPoint(200, 200)).toPoint();
-    appSize = allSettings->value(SCR_SIZE, QSize(600, 400)).toSize();
-    lastFile = allSettings->value(LAST_FILE_USED, "").toString();
-    lastDir = allSettings->value(LAST_DIR_USED, "").toString();
-    autoOpenLastFile = allSettings->value(AUTO_OPEN_LAST_FILE, true).toBool();
-    dontCloseAfterScan = allSettings->value(DONT_CLOSE_AFTER_SCAN, true).toBool();
+
+	const QPoint DEFAULT_SCR_POS(200, 200);
+	const QSize DEFAULT_SCR_SIZE(600, 400);
+	const QString DEFAULT_LAST_FILE_USED("");
+	const QString DEFAULT_LAST_DIR_USED("");
+	const bool DEFAULT_AUTO_OPEN_LAST_FILE(false);
+	const bool DEFAULT_DONT_CLOSE_AFTER_SCAN(true);
+	const bool DEFAULT_SEARCH_FN(true);
+	const bool DEFAULT_SEARCH_DI(true);
+	const bool DEFAULT_SEARCH_DE(true);
+	const bool DEFAULT_SEARCH_CS(false);
+	const int DEFAULT_COLS_CATALOG(COL_CATALOG_DEFAULT);
+	const int DEFAULT_COLS_DISK(COL_DISK_DEFAULT);
+
+	// Load default settings?
+	if (skipEnabled)
+	{
+		appPos = DEFAULT_SCR_POS;
+		appSize = DEFAULT_SCR_SIZE;
+		lastFile = DEFAULT_LAST_FILE_USED;
+		lastDir = DEFAULT_LAST_DIR_USED;
+		autoOpenLastFile = DEFAULT_AUTO_OPEN_LAST_FILE;
+		dontCloseAfterScan = DEFAULT_DONT_CLOSE_AFTER_SCAN;
+		searchFileNames = DEFAULT_SEARCH_FN;
+		searchDirNames = DEFAULT_SEARCH_DI;
+		searchDescriptions = DEFAULT_SEARCH_DE;
+		searchCaseSensitive = DEFAULT_SEARCH_CS;
+
+		catalogsColumns = DEFAULT_COLS_CATALOG;
+		disksColumns = DEFAULT_COLS_DISK;
+
+		for (int i = 0; i < 8; ++i)
+			catColumnSizes[i] = colsCatalogSizes[i];
+		for (int i = 0; i < 11; ++i)
+			diskColumnSizes[i] = colsDiskSizes[i];
+		numPlaces = 0;
+		scanPlaces.clear();
+
+		return;
+	}
+
+
+    appPos = allSettings->value(SCR_POS, DEFAULT_SCR_POS).toPoint();
+    appSize = allSettings->value(SCR_SIZE, DEFAULT_SCR_SIZE).toSize();
+    lastFile = allSettings->value(LAST_FILE_USED, DEFAULT_LAST_FILE_USED).toString();
+    lastDir = allSettings->value(LAST_DIR_USED, DEFAULT_LAST_DIR_USED).toString();
+    autoOpenLastFile = allSettings->value(AUTO_OPEN_LAST_FILE, DEFAULT_AUTO_OPEN_LAST_FILE).toBool();
+    dontCloseAfterScan = allSettings->value(DONT_CLOSE_AFTER_SCAN, DEFAULT_DONT_CLOSE_AFTER_SCAN).toBool();
     searchFileNames = allSettings->value(SEARCH_FN, true).toBool();
     searchDirNames = allSettings->value(SEARCH_DI, true).toBool();
     searchDescriptions = allSettings->value(SEARCH_DE, true).toBool();
     searchCaseSensitive = allSettings->value(SEARCH_CS, false).toBool();
     
-    catalogsColumns = allSettings->value(COLS_CATALOG, COL_CATALOG_DEFAULT).toInt();
-    disksColumns = allSettings->value(COLS_DISK, COL_DISK_DEFAULT).toInt();
+    catalogsColumns = allSettings->value(COLS_CATALOG, DEFAULT_COLS_CATALOG).toInt();
+    disksColumns = allSettings->value(COLS_DISK, DEFAULT_COLS_DISK).toInt();
     
     for (int i = 0; i < 8; ++i)
     {
@@ -87,6 +129,9 @@ void ConfigManager::loadSettings()
  */
 void ConfigManager::saveSettings()
 {
+	if (skipEnabled)
+		return;
+
     allSettings->setValue(SCR_POS, appPos);
     allSettings->setValue(SCR_SIZE, appSize);
     allSettings->setValue(LAST_FILE_USED, lastFile);

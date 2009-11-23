@@ -27,21 +27,19 @@
 
 
 #pragma region Application includes: Business Logic
+#include "test-common.h"
 #include "testcode.h"
+#include "configmanager.h"
 #pragma endregion
 
 #pragma region Application includes: GUI
+#include <QtGui/QInputDialog>
+#include <QtGui/QLineEdit>
 #include "mainwindow.h"
 #pragma endregion
 
 
-#define home
-#ifdef home
 #define DB_FILE "data/home2.sqlite"
-#else
-#define DB_FILE "data/office2.sqlite"
-#endif
-
 
 void test_createDB();
 
@@ -49,40 +47,72 @@ class test_create_cat : public QObject
 {
      Q_OBJECT
 	
+	private:
+		QString sampleDBfilename;
+		QString sampleDBpath;
+		QTemporaryFile *tmpfile;
+
 	private slots:
 		void initTestCase() {
+#if 0
+			sampleDBfilename = "qcat_ut-" + QUuid::createUuid().toString() + ".qcat";
+			sampleDBpath = QDir::home().absolutePath() + "/" + sampleDBfilename;
+#else
+			tmpfile = new QTemporaryFile(QDir::tempPath() + "/qcat_ut-XXXXXX.qcat");
+			QVERIFY(tmpfile != 0);
+			QVERIFY(tmpfile->open() != false);
+			sampleDBpath = tmpfile->fileName();
+			sampleDBfilename = QFileInfo(sampleDBpath).fileName();
+#endif
 		}
 
 		void cleanupTestCase() {
-		}
-
-
-		void testCreateNamedCatalogs_data()
-		{
-			QTest::addColumn<QTestEventList>("events");
-			QTest::addColumn<QString>("expected");
-
-			// add the event for a key click on the widget
-			QTestEventList list1;
-			list1.addKeyClick('a');
-			QTest::newRow("char") << list1 << "a";
-
-			QTestEventList list2;
-			list2.addKeyClick('a');
-			list2.addKeyClick(Qt::Key_Backspace);
-			QTest::newRow("there and back again") << list2 << "";
+			if (tmpfile)
+			{
+				tmpfile->close();
+				// normally unlinks the database, unless it was not properly closed.
+				delete tmpfile;
+				QTest::qWait(800);
+				QVERIFY(QFile::exists(sampleDBpath) == false);
+			}
 		}
 
 
 		void testCreateNamedCatalogs() {
-			test_createDB();
-			QCOMPARE(1, 1); // Dummy test
+			QStringList params;
+
+			// Check window title and enable Debug mode
+			QTestEventList list0;
+			list0.addDelay(2000);
+			list0.addKeyClick(Qt::Key_F12, Qt::ShiftModifier, 200);
+			list0.simulate(qWin);
+			QCOMPARE(qWin->windowTitle(), tr(APPNAME));
+
+			// Create New catalog in Debug mode
+			params.clear();
+			params << sampleDBpath;
+			qWin->setDebugParams(params);
+
+			QTestEventList list1;
+			list1.addKeyClick(Qt::Key_N, Qt::ControlModifier, 500);
+			list1.simulate(qWin);
+			QCOMPARE(qWin->windowTitle(), tr("%1[*] - %2").arg(sampleDBfilename).arg(tr(APPNAME)));
+
+			// TODO: perform various tests here
+
+			// Close catalog
+			QTestEventList list99;
+			list99.addDelay(2000);
+			list99.addKeyClick(Qt::Key_W, Qt::ControlModifier, 2500);
+			list99.simulate(qWin);
+			QCOMPARE(qWin->windowTitle(), tr(APPNAME));
+
+		}
+
+		void test_createDB(){
+			//QCatDataModuleClass::createDB(DB_FILE, true);
 		}
 };
-
-void test_createDB(){
-//	QCatDataModuleClass::createDB(DB_FILE, true);
-}
 
 
 QTTESTUTIL_REGISTER_TEST(test_create_cat);

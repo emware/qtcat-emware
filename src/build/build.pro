@@ -27,3 +27,6 @@ else {
 # main.cpp contains the entry point.
 SOURCES += main.cpp
 
+#Resource file(s)
+RESOURCES += .\application.qrc
+

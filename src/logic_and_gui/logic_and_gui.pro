@@ -71,9 +71,6 @@ catalogpropertiesdlg.h \
  catalogtable.h
 
 
-#Resource file(s)
-RESOURCES += .\application.qrc
-
 
 
 FORMS += catalog_pass.ui \

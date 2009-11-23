@@ -55,13 +55,41 @@
 
 MainWindow::MainWindow()
 {
+	construct();
+}
+
+MainWindow::MainWindow(QStringList opts)
+{
+	construct(&opts);
+}
+
+
+MainWindow::~MainWindow()
+{
+    //delete rightPanel;
+	//delete catalogTree;
+
+}	
+
+
+void MainWindow::construct(QStringList *opts)
+{
 	printQS(QApplication::translate("QCatDebug", "Constructing MainWindow", 0, QApplication::UnicodeUTF8));
     dm = NULL;
 	
     catalogTree = NULL;
     rightPanel = NULL;
+
+	debugEnabled = false;
+
+	QStringList options;
+	if ( opts )
+	{
+		options = *opts;
+	}
 	
-    readSettings();
+	setWindowTitle(tr(APPNAME));
+    readSettings(&options);
 	
     if (settings->autoOpenLastFile)
         loadFile(settings->lastFile);
@@ -101,16 +129,10 @@ MainWindow::MainWindow()
     
 }
 
-MainWindow::~MainWindow()
-{
-    //delete rightPanel;
-	//delete catalogTree;
 
-}	
-
-void MainWindow::readSettings()
+void MainWindow::readSettings(QStringList *opts)
 {
-    settings = new ConfigManager;
+    settings = new ConfigManager(opts);
     settings->loadSettings();
     
     resize(settings->appSize);
@@ -160,11 +182,29 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
+
+void MainWindow::enableDebugMode()
+{
+	debugEnabled = true;
+	statusBar()->showMessage("+Debug");
+}
+
 void MainWindow::newFile()
 {
     if (maybeSave()){
-        QString fileName = QFileDialog::getSaveFileName(this, tr("New Catalog"), settings->lastDir, "*.qcat");
-        if (fileName.isEmpty())
+        QString fileName;
+
+#if !defined(QT_NO_DEBUG)
+		if (debugEnabled){
+			fileName = debugParams.front();
+		}
+		else
+#endif
+		{
+			fileName = QFileDialog::getSaveFileName(this, tr("New Catalog"), settings->lastDir, "*.qcat");
+		}
+
+		if (fileName.isEmpty())
             return;
 		if (!fileName.endsWith(".qcat"))
 			fileName += ".qcat";
@@ -236,6 +276,7 @@ bool MainWindow::closeCatalog()
     }
     delete dm;
     dm = NULL;
+	setWindowTitle(tr(APPNAME));
 	printQS(QApplication::translate("QCatDebug", "Close catalog action", 0, QApplication::UnicodeUTF8));
     return false;
 }
@@ -422,6 +463,10 @@ void MainWindow::createActions()
     aboutQtAct->setStatusTip(tr("Show the Qt library's About box"));
     connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
+    enableDebugAct = new QAction(QString("+Debug"), this);
+    enableDebugAct->setShortcut(QString("Shift+F12"));
+    connect(enableDebugAct, SIGNAL(triggered()), this, SLOT(enableDebugMode()));
+
     cutAct->setEnabled(false);
     copyAct->setEnabled(false);
     saveAsAct->setEnabled(false);
@@ -476,6 +521,8 @@ void MainWindow::createMenus()
     helpMenu->addSeparator();
     helpMenu->addAction(aboutAct);
     helpMenu->addAction(aboutQtAct);
+
+    this->addAction(enableDebugAct);
     
 }
 
@@ -582,9 +629,10 @@ void MainWindow::manageDrives()
 	dlg.exec();
 }
 
-
-
-
+void MainWindow::setDebugParams(QStringList params)
+{
+	debugParams = params;
+}
 
 
 
